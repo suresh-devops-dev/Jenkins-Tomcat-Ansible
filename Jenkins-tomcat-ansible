@@ -1,0 +1,62 @@
+Jenkins-tomcat setup
+=====================
+1) Download Java
+
+yum install java-1.8*
+
+2) Install Jenkins
+You can install jenkins using the rpm or by setting up the repo. We will setup the repo so that we can update it easily in future. Get latest version of jenkins from https://pkg.jenkins.io/redhat-stable/
+
+yum -y install wget
+wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum -y install jenkins
+Start Jenkins
+# Start jenkins service
+systemctl start jenkins
+
+# Setup Jenkins to start at boot,
+systemctl enable jenkins
+Accessing Jenkins
+By default jenkins runs at port 8080, You can access jenkins at
+
+http://YOUR-SERVER-PUBLIC-IP:8080
+
+
+3) Add Maven, GIT in Global Tool Configuration 
+
+4) Download Deploy to container jenkins-plugins
+
+5) Create a maven project 
+choose goals
+clean installl package
+
+Ansible
+========
+1) Create a ansible-master-control in aws
+2) Create ansible - slave
+3) install ansible using epal
+4) create same user on both servers
+enable passwordAuthentication YES on both servers
+restart sshd service 
+5) generate ssh-keygen in control server and copy ssh-copy-id using PrivateIP
+
+
+
+install publish over SSH plugin in jenkins server
+
+add post-steps as send files over ssh in job 
+create a copyfile.yml
+in /opt/playbooks/webapp/target
+
+
+[ansadmin@ip-172-31-36-93 playbooks]$ cat copyfile.yml
+---
+- hosts: tomcat-server
+  become: true
+  tasks:
+   - name: copy ear/war onto tomcat
+     copy:
+       src: /opt/playbooks/webapp/target/webapp.war
+       dest: /opt/apache-tomcat-8.5.47/webapps
+run jenkins job
