@@ -60,3 +60,18 @@ in /opt/playbooks/webapp/target
        src: /opt/playbooks/webapp/target/webapp.war
        dest: /opt/apache-tomcat-8.5.47/webapps
 run jenkins job
+
+
+
+---
+ - hosts: slave,master
+   become: true
+   tasks:
+     - name: copy war
+       copy:
+         src: /root/.jenkins/workspace/spring_rest_aws_1/target/spring-boot-rest-mysql-0.0.1-SNAPSHOT.war
+         dest: /opt/apache-tomcat-9.0.26/webapps
+
+
+
+
